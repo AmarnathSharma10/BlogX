@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog Home</title>
+</head>
+<body>
+    <header>
+        <img src="{% static 'logos/default.webp' %}" alt="Logo" width="150">
+    </header>
+
+    <h1>All Blog Posts</h1>
+
+    {% for post in posts %}
+        <div style="margin-bottom: 20px;">
+            <a href="{% url 'post_detail' post.id %}">
+                {% if post.thumbnail %}
+                    <img src="{{ post.thumbnail.url }}"  width="150">
+                
+                {% endif %}
+                <h2>{{ post.title }}</h2>
+            </a>
+        </div>
+    {% empty %}
+        <p>No blog posts yet.</p>
+    {% endfor %}
+
+</body>
+</html>

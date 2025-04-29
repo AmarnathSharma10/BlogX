@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="Blog Image" width="300">
+    {% endif %}
+
+    <p>{{ post.body }}</p>
+
+    <a href="{% url 'home' %}">← Back to Home</a>
+</body>
+</html>
