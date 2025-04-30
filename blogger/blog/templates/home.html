@@ -4,27 +4,107 @@
 <html>
 <head>
     <title>Blog Home</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .post-card {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+
+        .post-card img {
+            max-width: 150px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .create-btn {
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .pagination a {
+            padding: 6px 10px;
+            background: #f0f0f0;
+            text-decoration: none;
+            color: #333;
+            border-radius: 4px;
+        }
+
+        .pagination span {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Header -->
     <header>
-        <img src="{% static 'logos/default.webp' %}" alt="Logo" width="150">
+        <img src="{% static 'logos/default.webp' %}" alt="Logo" width="120">
+        <a href="{% url 'create_post' %}" class="create-btn">+ Create Post</a>
     </header>
 
     <h1>All Blog Posts</h1>
 
-    {% for post in posts %}
-        <div style="margin-bottom: 20px;">
+    <!-- Posts -->
+    {% for post in page_obj %}
+        <div class="post-card">
             <a href="{% url 'post_detail' post.id %}">
                 {% if post.thumbnail %}
-                    <img src="{{ post.thumbnail.url }}"  width="150">
-                
+                    <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}">
+                {% else %}
+                    <img src="/media/thumbnails/default.webp" alt="Default Thumbnail">
                 {% endif %}
                 <h2>{{ post.title }}</h2>
+                <p>{{ post.body|truncatewords_html:30|safe }}</p>
             </a>
         </div>
     {% empty %}
         <p>No blog posts yet.</p>
     {% endfor %}
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">← Previous</a>
+        {% endif %}
+
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next →</a>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 50px; padding: 20px 0; text-align: center; border-top: 1px solid #ccc;">
+        <img src="{% static 'logos/default.webp' %}" alt="Logo" width="80" style="margin-bottom: 10px;">
+        <p>&copy; {% now "Y" %} Your Blog Name. All rights reserved.</p>
+        <p>Made with ❤️ using Django</p>
+    </footer>
 
 </body>
 </html>

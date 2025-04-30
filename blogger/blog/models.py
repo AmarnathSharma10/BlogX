@@ -1,12 +1,12 @@
 from django.db import models
 # blog/models.py
-
+from ckeditor.fields import RichTextField
 from django.db import models
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
-    body = models.TextField()
-    image = models.ImageField(upload_to='blog_images/', blank=True, null=True)  # optional image
+    body = RichTextField()
+    # image = models.ImageField(upload_to='blog_images/', blank=True, null=True)  # optional image
     thumbnail = models.ImageField(
     upload_to='thumbnails/',
     blank=True,

@@ -6,4 +6,4 @@ from .models import BlogPost
 class BlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
-        fields = ['title', 'body', 'thumbnail', 'image']  # all fields you want to expose
+        fields = ['title', 'body', 'thumbnail']  # all fields you want to expose
